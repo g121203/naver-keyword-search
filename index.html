@@ -3,31 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>네이버 단어 검색 빈도 조회</title>
+    <title>네이버 검색 빈도 조회</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #ffffff; padding: 16px; display: flex; justify-content: center; }
-        main { width: 100%; max-width: 400px; }
-        header { text-align: center; margin-bottom: 24px; }
-        h1 { font-size: 20px; font-weight: 700; color: #1f2937; }
-        .sub-title { font-size: 12px; color: #6b7280; margin-top: 6px; }
+        body { font-family: sans-serif; background-color: #f8fafc; padding: 16px; display: flex; justify-content: center; }
+        main { width: 100%; max-width: 420px; background-color: #ffffff; padding: 24px 20px; border-radius: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
+        header { text-align: center; margin-bottom: 20px; }
+        h1 { font-size: 22px; font-weight: bold; color: #0f172a; }
+        .sub-title { font-size: 13px; color: #64748b; margin-top: 6px; }
+        
+        .welcome-box { background-color: #f0f9ff; border: 1px dashed #bae6fd; border-radius: 16px; padding: 14px; margin-bottom: 24px; text-align: center; }
+        .welcome-title { font-size: 13px; font-weight: bold; color: #0369a1; margin-bottom: 4px; }
+        .welcome-desc { font-size: 11px; color: #0c4a6e; }
+        
         .section { margin-bottom: 20px; }
-        .label { font-size: 14px; font-weight: 600; color: #374151; display: block; margin-bottom: 8px; }
-        input[type="text"] { width: 100%; padding: 12px 14px; border: 1px solid #e5e7eb; border-radius: 12px; font-size: 14px; outline: none; background-color: #f9fafb; }
-        input[type="text"]:focus { border-color: #059669; background-color: #ffffff; }
-        input[type="text"]::placeholder { color: #9ca3af; font-size: 14px; }
-        .period-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .period-btn { padding: 10px 0; border: none; border-radius: 12px; font-size: 12px; cursor: pointer; background-color: #f3f4f6; color: #4b5563; }
-        .period-btn.active { background-color: #059669 !important; color: #ffffff !important; font-weight: 600; }
-        .submit-btn { width: 100%; background-color: #111827; color: #ffffff; border: none; border-radius: 12px; padding: 14px 0; font-size: 14px; font-weight: 600; cursor: pointer; }
-        #resultSection { display: none; margin-top: 24px; padding-top: 20px; border-top: 1px solid #f3f4f6; }
+        .label { font-size: 14px; font-weight: bold; color: #334155; display: block; margin-bottom: 8px; }
+        input[type="text"] { width: 100%; padding: 14px 16px; border: 1.5px solid #e2e8f0; border-radius: 14px; font-size: 14px; outline: none; background-color: #f8fafc; }
+        
+        .period-container { display: flex; gap: 6px; width: 100%; }
+        .period-btn { flex: 1; padding: 12px 0; border: 1.5px solid #e2e8f0; border-radius: 14px; font-size: 11px; font-weight: bold; cursor: pointer; background-color: #ffffff; color: #64748b; text-align: center; }
+        .period-btn.active { background-color: #0ea5e9 !important; border-color: #0ea5e9 !important; color: #ffffff !important; }
+        
+        .submit-btn { width: 100%; background-color: #0f172a; color: #ffffff; border: none; border-radius: 14px; padding: 16px 0; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px; display: block; text-align: center; }
+        .submit-btn:active { background-color: #1e293b; }
+        
+        #resultSection { display: none; margin-top: 24px; padding-top: 20px; border-top: 2px dashed #e2e8f0; }
         .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-        .result-title { font-size: 15px; font-weight: 700; color: #1f2937; }
-        .result-info { font-size: 10px; color: #9ca3af; text-align: right; line-height: 1.4; }
-        .result-card { background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 14px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;}
-        .card-keyword { font-size: 15px; font-weight: 700; color: #166534; }
-        .score-text { font-size: 18px; font-weight: 800; color: #15803d; }
-        .unit { font-size: 12px; color: #166534; margin-left: 2px; font-weight: 500; }
+        .result-title { font-size: 15px; font-weight: bold; color: #0f172a; }
+        .result-info { font-size: 10px; color: #94a3b8; text-align: right; }
+        .result-card { background-color: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .card-keyword { font-size: 15px; font-weight: bold; color: #166534; }
+        .score-text { font-size: 20px; font-weight: 800; color: #166534; }
+        .unit { font-size: 12px; color: #166534; margin-left: 2px; }
     </style>
 </head>
 <body>
@@ -37,29 +44,34 @@
             <div class="sub-title">✏️ 입력한 단어가 네이버에서 얼마나 자주 사용되었는지 비교해 보아요!</div>
         </header>
 
+        <div class="welcome-box">
+            <div class="welcome-title">💡 사용 방법 가이드</div>
+            <div class="welcome-desc">조회할 단어들을 쉼표(,)로 구분해서 적고<br>기간을 선택한 뒤 아래 버튼을 누르면 실시간 점수가 짜잔! 나와요.</div>
+        </div>
+
         <div class="section">
-            <label class="label">🔍 조회할 단어 (쉼표로 구분)</label>
+            <label class="label">🔍 조회할 단어 입력</label>
             <input id="keywordInput" type="text" value="" placeholder="예시: 짜장면, 자장면">
         </div>
 
         <div class="section">
             <label class="label">📅 조회 기간 선택</label>
             <div class="period-container">
-                <button type="button" id="btn-1m" class="period-btn active" onclick="changePeriod('1m')">📅 최근 1달</button>
-                <button type="button" id="btn-1y" class="period-btn" onclick="changePeriod('1y')">🗓️ 최근 1년</button>
-                <button type="button" id="btn-5y" class="period-btn" onclick="changePeriod('5y')">📜 최근 5년</button>
-                <button type="button" id="btn-10y" class="period-btn" onclick="changePeriod('10y')">⏳ 최근 10년</button>
+                <button type="button" id="btn-1m" class="period-btn active" onclick="changePeriod('1m')">최근 1달</button>
+                <button type="button" id="btn-1y" class="period-btn" onclick="changePeriod('1y')">최근 1년</button>
+                <button type="button" id="btn-5y" class="period-btn" onclick="changePeriod('5y')">최근 5년</button>
+                <button type="button" id="btn-10y" class="period-btn" onclick="changePeriod('10y')">최근 10년</button>
             </div>
         </div>
 
-        <button type="button" class="submit-btn" onclick="runAnalysis()">🚀 실시간 빈도 조회하기</button>
+        <button type="button" class="submit-btn" id="submitBtn">🚀 실시간 빈도 조회하기</button>
 
         <div id="resultSection">
             <div class="result-header">
-                <div class="result-title">✨ 조회 결과 (<span id="selectedPeriodText" style="color: #059669;">최근 1달</span>)</div>
+                <div class="result-title">✨ 조회 결과 (<span id="selectedPeriodText" style="color: #0ea5e9;">최근 1달</span>)</div>
                 <div class="result-info">
                     *네이버 데이터랩 평균 지수<br>
-                    <span style="font-size: 9px; color: #9ca3af;">(가장 많이 검색된 단어를 100으로 잡은 비율 점수)</span>
+                    <span style="font-size: 9px; color: #94a3af;">(가장 많이 검색된 단어를 100으로 잡은 비율 점수)</span>
                 </div>
             </div>
             <div id="resultContainer"></div>
@@ -79,7 +91,6 @@
             document.getElementById('btn-' + period).classList.add('active');
         }
 
-        // 💡 오늘 날짜 기준으로 네이버가 원하는 YYYY-MM-DD 날짜를 만들어내는 함수입니다.
         function getDates(period) {
             const end = new Date();
             const start = new Date();
@@ -93,7 +104,7 @@
             return { startDate: formatDate(start), endDate: formatDate(end) };
         }
 
-        async function runAnalysis() {
+        document.getElementById('submitBtn').addEventListener('click', async function() {
             const inputVal = document.getElementById('keywordInput').value;
             const keywords = inputVal.split(',').map(k => k.trim()).filter(k => k !== '');
             
@@ -104,24 +115,25 @@
 
             document.getElementById('selectedPeriodText').innerText = "조회 중...";
             const container = document.getElementById('resultContainer');
-            container.innerHTML = '<div style="text-align:center; font-size:13px; color:#6b7280; padding:20px 0;">⏳ 실시간 데이터를 열심히 조회하고 있어요...</div>';
+            container.innerHTML = '<div style="text-align:center; font-size:13px; color:#64748b; padding:20px 0;">⏳ 실시간 데이터를 열심히 조회하고 있어요...</div>';
             document.getElementById('resultSection').style.display = 'block';
 
-            // 💡 선택한 기간에 맞는 시작일과 종료일을 계산합니다.
             const { startDate, endDate } = getDates(currentPeriod);
 
-            // 💡 네이버 데이터랩 API가 원하는 데이터 규격으로 포맷팅합니다.
             const requestBody = {
                 startDate: startDate,
                 endDate: endDate,
-                timeUnit: "month", // 기간 비교를 위해 월간 단위로 고정합니다.
+                timeUnit: "month",
                 keywordGroups: keywords.map(k => ({ groupName: k, keywords: [k] }))
             };
 
             try {
+                // Vercel 프록시 경로(/api/analyze)로 요청을 보냅니다.
                 const response = await fetch('/api/analyze', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify(requestBody)
                 });
                 
@@ -129,7 +141,6 @@
                 container.innerHTML = '';
                 document.getElementById('selectedPeriodText').innerText = periodLabels[currentPeriod];
 
-                // 💡 네이버가 보내준 복잡한 결과 배열에서 단어별 평균 점수를 계산해 화면에 뿌려줍니다.
                 resData.results.forEach(result => {
                     const word = result.title;
                     let total = 0;
@@ -148,7 +159,7 @@
                 alert('❌ 데이터를 가져오지 못했습니다. API 키 설정이나 파일 구성을 확인해 주세요.');
                 container.innerHTML = '';
             }
-        }
+        });
     </script>
 </body>
 </html>
