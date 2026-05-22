@@ -4,5 +4,14 @@
       "source": "/api/analyze",
       "destination": "https://openapi.naver.com/v1/datalab/search"
     }
+  ],
+  "headers": [
+    {
+      "source": "/api/analyze",
+      "headers": [
+        { "key": "X-Naver-Client-Id", "value": "@X_Naver_Client_Id" },
+        { "key": "X-Naver-Client-Secret", "value": "@X_Naver_Client_Secret" }
+      ]
+    }
   ]
 }

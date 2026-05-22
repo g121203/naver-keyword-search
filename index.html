@@ -128,12 +128,10 @@
             };
 
             try {
-                // Vercel 프록시 경로(/api/analyze)로 요청을 보냅니다.
+                // 💡 이제 복잡한 키 설정을 신경 쓰지 않고 Vercel 주소로 다이렉트 전송합니다!
                 const response = await fetch('/api/analyze', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestBody)
                 });
                 
