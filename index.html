@@ -128,10 +128,14 @@
             };
 
             try {
-                // 💡 이제 복잡한 키 설정을 신경 쓰지 않고 Vercel 주소로 다이렉트 전송합니다!
+                // 💡 코드 내부에 비밀키를 안전하게 직접 탑재했습니다!
                 const response = await fetch('/api/analyze', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Naver-Client-Id': 'bl4BsuQ9WzOqyCOdKze3',
+                        'X-Naver-Client-Secret': 'B3ycDvLMRi'
+                    },
                     body: JSON.stringify(requestBody)
                 });
                 
